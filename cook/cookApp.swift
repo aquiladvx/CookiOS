@@ -12,7 +12,8 @@ import Firebase
 struct cookApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let viewModel = SplashViewModel()
+            SplashView(viewModel: viewModel)
         }
     }
     

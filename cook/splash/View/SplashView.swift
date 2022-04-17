@@ -40,12 +40,7 @@ extension SplashView {
                     .ignoresSafeArea()
                 
                 if let error = error {
-                    Text("")
-                        .alert(isPresented: .constant(true)) {
-                            Alert(title: Text("Alert"), message: Text(error), dismissButton: .default(Text("Ok")) {
-                                //TODO somethings happens after error
-                            })
-                        }
+                    CookAlert(content: error)
                 }
             }
         )
@@ -56,7 +51,10 @@ struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             let viewModel = SplashViewModel()
-            SplashView(viewModel: viewModel)
+            ForEach(ColorScheme.allCases, id: \.self) { value in
+                SplashView(viewModel: viewModel)
+                    .preferredColorScheme(value)
+            }
         }
     }
 }

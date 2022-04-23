@@ -22,22 +22,19 @@ struct SignInView: View {
                 default:
                     NavigationView {
                         ScrollView(showsIndicators: false) {
-                            VStack(alignment: .center, spacing: 20) {
-                                VStack(alignment: .center, spacing: 8) {
-                                    logo
-                                    emailField
-                                    passwordField
-                                    signInButton
-                                    Spacer()
-                                }
+                            VStack(alignment: .leading, spacing: 8) {
+                                Spacer(minLength: 100)
+                                logo
+                                title
+                                inputArea
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 16)
                             
                             if case SignInUIState.FAILURE(let message) = viewModel.uiState {
                                     CookAlert(content: message)
                                 }
-                        }
+                        }.background(Color("PrimaryColor"))
                     }
             }
         }
@@ -46,11 +43,66 @@ struct SignInView: View {
 
 extension SignInView {
     var logo: some View {
-        Image("Logo")
-            .resizable()
-            .scaledToFit()
-            .padding(.horizontal, 100)
-            .padding(.bottom, 20)
+        VStack(alignment: .center) {
+            Image("Logo")
+                .scaledToFit()
+        }.frame(maxWidth: .infinity)
+            
+    }
+    
+    var title: some View {
+        Text("Milhares de receitas\nGrátis esperando por você")
+            .font(Font.custom("Raleway-SemiBold", size: 24))
+            .foregroundColor(Color.white)
+            .padding([.bottom, .top], 10)
+    }
+    
+    var inputArea: some View {
+        VStack(alignment: .center) {
+            VStack(spacing: 10) {
+                emailField
+                signInButton
+                anotherLoginOptionArea
+                signUp
+                missPassword
+            }.padding(20)
+        }
+            .background(Color.white)
+            .cornerRadius(10)
+            
+    }
+    
+    var signUp: some View {
+        HStack {
+            CookText("Ainda não tem cadastro?", size: 16)
+            CookClickableText("Cadastrar", size: 16) {
+                // TODO: cadastro de usuario
+                print("click")
+            }
+            Spacer()
+        }.frame(maxWidth: .infinity)
+            .padding(.top, 10)
+    }
+    
+    var missPassword: some View {
+        HStack {
+            CookClickableText("Esqueceu sua senha?", size: 16) {
+                // TODO: recuperar senha
+                print("click")
+            }
+            Spacer()
+        }
+    }
+    
+    var anotherLoginOptionArea: some View {
+        VStack {
+            CookText("ou")
+            HStack(spacing: 20) {
+                SocialButton(image: Image("AppleIcon"), color: Color.black, iconSize: 30)
+                SocialButton(image: Image("FacebookIcon"), color: Color("FacebookColor"), iconSize: 25)
+                SocialButton(image: Image("GoogleIcon"), color: Color.red, iconSize: 22)
+            }
+        }
     }
     
     var emailField: some View {
@@ -65,8 +117,8 @@ extension SignInView {
     }
         
     var signInButton: some View {
-        CookButton(text: "Entrar", showProgress: viewModel.uiState == SignInUIState.LOADING, disabled: !email.isEmail() || password.count < 6) {
-            viewModel.signIn(email: email, password: password)
+        CookButton(text: "Continuar", showProgress: viewModel.uiState == SignInUIState.LOADING, disabled: !email.isEmail()) {
+            viewModel.signIn(email: email, password: "123321")
         }
     }
 }
@@ -74,6 +126,9 @@ extension SignInView {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = SignInViewModel()
-        SignInView(viewModel: viewModel)
+        ForEach(ColorScheme.allCases, id: \.self) { value in
+            SignInView(viewModel: viewModel)
+                .preferredColorScheme(value)
+        }
     }
 }

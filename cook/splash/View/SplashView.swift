@@ -31,18 +31,22 @@ extension SplashView {
     func loadingView(error: String? = nil) -> AnyView {
         return AnyView(
             ZStack {
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(20)
-                    .background(Color.white)
-                    .ignoresSafeArea()
+                VStack {
+                    Image("Logo")
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .padding([.top], 252)
+                        .ignoresSafeArea()
+                    
+                    Spacer()
+                }
                 
                 if let error = error {
                     CookAlert(content: error)
                 }
             }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color("PrimaryBackgroundColor"))
         )
     }
 }

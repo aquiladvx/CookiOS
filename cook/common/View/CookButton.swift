@@ -17,14 +17,13 @@ struct CookButton: View {
         ZStack {
             Button(action: action, label: {
                 Text(showProgress ? "" : text)
-                    .font(.title3)
-                    .fontWeight(.bold)
+                    .font(Font.custom("Raleway-Medium", size: 20))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
             })
                 .background(disabled ? Color("DisablePrimaryColor") : Color("PrimaryColor"))
-                .cornerRadius(10)
+                .cornerRadius(6)
                 .disabled(showProgress || disabled)
                 .shadow(color: Color("TextColor").opacity(0.2), radius: 10, x: -5, y: 5)
             
@@ -43,6 +42,7 @@ struct CookButton_Previews: PreviewProvider {
             CookButton(text: "Entrar") {
                 
             }.preferredColorScheme(value)
+                .padding()
         }
     }
 }

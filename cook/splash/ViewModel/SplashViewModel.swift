@@ -13,8 +13,10 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation {
 //            self.uiState = .FAILURE(errorMessage: "Erro no contato com o servidor")
-            self.uiState = .GO_TO_SIGNIN
+                self.uiState = .GO_TO_SIGNIN
+            }
         }
     }
 }

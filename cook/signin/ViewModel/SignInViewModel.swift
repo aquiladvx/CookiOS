@@ -34,7 +34,9 @@ class SignInViewModel: ObservableObject {
             }
             
             //SUCCESS
-            self.uiState = .GO_TO_HOME
+            withAnimation {
+                self.uiState = .GO_TO_HOME
+            }
         }
     }
     
@@ -42,6 +44,6 @@ class SignInViewModel: ObservableObject {
 
 extension SignInViewModel {
     func goToHome() -> some View {
-        return SignInViewRouter.makeHomeView()
+        return SignInViewRouter.makeHomeView().transition(.slide.animation(.default))
     }
 }
